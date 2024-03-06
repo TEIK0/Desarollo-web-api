@@ -1,41 +1,42 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connections";
-import Experiencia from "./experiencia";
+import Usuario from "./usuario";
 
-const Usuario = db.define('Usuario', {
+const Experiencia = db.define('Experiencia', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
+    }, 
+    usuario_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Usuario,
+            key: 'id'
+          }
     },
-    nombre: {
+    empresa: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    apellido: {
+    cargo: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    correo: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    pasword: {
+    fecha_inicio: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    nacionalidad: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    nacimiento: {
+    fecha_salida: {
         type: DataTypes.STRING,
         allowNull: false,
     }
+    
 })
 
-Usuario.sync();
 
-export default Usuario;
+Experiencia.sync();
+
+export default Experiencia;

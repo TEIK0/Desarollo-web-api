@@ -8,5 +8,6 @@ router.get('/:id', usuarios_1.getUsuario);
 router.post('/', usuarios_1.postUsuario);
 router.put('/:id', usuarios_1.putUsuario);
 router.delete('/:id', usuarios_1.deleteUsuario);
+router.post('/login', usuarios_1.postLogin);
 exports.default = router;
 //# sourceMappingURL=usuario.js.map

@@ -1,5 +1,7 @@
 import express, { Application } from "express";
 import userRoutes from '../routes/usuario';
+import experienciaRoutes from '../routes/experiencia';
+import habilidadRoutes from '../routes/habilidad_blanda';
 import cors from "cors";
 import db from "../db/connections";
 
@@ -8,7 +10,9 @@ class Server {
     private app: Application;
     private port: string;
     private apiPaths = {
-        usuarios: '/api/usuarios'
+        usuarios: '/api/usuarios',
+        habilidades: '/api/habilidades',
+        experiencias: '/api/experiencias'
     }
 
     constructor() {
@@ -41,6 +45,8 @@ class Server {
 
     routes() {
         this.app.use( this.apiPaths.usuarios, userRoutes)
+        this.app.use( this.apiPaths.experiencias, experienciaRoutes)
+        this.app.use( this.apiPaths.habilidades, habilidadRoutes)
     }
 
     listen() {

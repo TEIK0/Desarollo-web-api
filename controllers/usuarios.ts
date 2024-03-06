@@ -86,3 +86,43 @@ export const deleteUsuario = ( req: Request , res: Response ) => {
         id
     })
 }
+
+export const postLogin = async ( req: Request , res: Response ) => {
+
+    const { correo , pasword } = req.body;
+
+    try {
+
+        const usuario = await Usuario.findOne({where: {
+            correo: correo
+        }})
+
+        if(usuario) {
+
+            const paswordCorrecta = await Usuario.findOne({where: {
+                correo: correo,
+                pasword: pasword
+            }})
+
+            if (paswordCorrecta) {
+                res.json({
+                    msg: 'Logeado de forma exitosa'
+                })
+            } else {
+                return res.status(400).json({
+                    msg: 'Contraseña incorrecta'
+                })
+            }
+            
+        }else { 
+            return res.status(400).json({
+                msg: 'Correo no encontrado'
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        })
+    }
+}

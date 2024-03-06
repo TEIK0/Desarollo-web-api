@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+exports.postLogin = exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const usuario_1 = __importDefault(require("../models/usuario"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarios = yield usuario_1.default.findAll();
@@ -89,4 +89,40 @@ const deleteUsuario = (req, res) => {
     });
 };
 exports.deleteUsuario = deleteUsuario;
+const postLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { correo, pasword } = req.body;
+    try {
+        const usuario = yield usuario_1.default.findOne({ where: {
+                correo: correo
+            } });
+        if (usuario) {
+            const paswordCorrecta = yield usuario_1.default.findOne({ where: {
+                    correo: correo,
+                    pasword: pasword
+                } });
+            if (paswordCorrecta) {
+                res.json({
+                    msg: 'Logeado de forma exitosa'
+                });
+            }
+            else {
+                return res.status(400).json({
+                    msg: 'Contraseña incorrecta'
+                });
+            }
+        }
+        else {
+            return res.status(400).json({
+                msg: 'Correo no encontrado'
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+});
+exports.postLogin = postLogin;
 //# sourceMappingURL=usuarios.js.map
